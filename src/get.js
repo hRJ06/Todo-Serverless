@@ -1,4 +1,4 @@
-import AWS from "aws-sdk";
+const AWS = require("aws-sdk");
 
 module.exports.handler = async (event) => {
   const db = new AWS.DynamoDB.DocumentClient();

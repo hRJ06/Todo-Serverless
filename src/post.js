@@ -1,5 +1,5 @@
-import v4 from "uuid";
-import AWS from "aws-sdk";
+const { v4 } = require("uuid");
+const AWS = require("aws-sdk");
 
 module.exports.handler = async (event) => {
   const db = new AWS.DynamoDB.DocumentClient();
@@ -15,7 +15,7 @@ module.exports.handler = async (event) => {
   await db.put({
     TableName: "TODO",
     Item: newTask,
-  });
+  }).promise();
   return {
     statusCode: 200,
     body: JSON.stringify(newTask),
