@@ -1,7 +1,7 @@
 import v4 from "uuid";
 import AWS from "aws-sdk";
 
-module.exports.add = async (event) => {
+module.exports.handler = async (event) => {
   const db = new AWS.DynamoDB.DocumentClient();
   const { task } = JSON.parse(event.body);
   const createdAt = new Date().toISOString();

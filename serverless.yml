@@ -1,0 +1,55 @@
+org: hindol
+app: todo-serverless
+service: todo-serverless-aws-app
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-east-1:961341536546:table/TODO
+
+functions:
+  health:
+    handler: src/health.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+  addTask:
+    handler: src/post.handler
+    events:
+      - httpApi:
+          path: /task
+          method: post
+  getTask:
+    handler: src/get.handler
+    events:
+      - httpApi:
+          path: /task
+          method: get
+  updateTask:
+    handler: src/put.handler
+    events:
+      - httpApi:
+          path: /task/{id}
+          method: put
+
+resources:
+  Resources:
+    todoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TODO
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH

@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 
-module.exports.update = async (event) => {
+module.exports.handler = async (event) => {
   const db = new AWS.DynamoDB.DocumentClient();
   const { completed } = JSON.parse(event.body);
   const { id } = event.pathParameters;
